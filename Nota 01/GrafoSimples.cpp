@@ -304,4 +304,18 @@ class GrafoSimples {
             }
             cout << endl;
         }
+
+
+        /**
+         * Lista todos os vértices isolados do grafo
+        */
+        void ExibeVerticesIsolados() {
+            cout << "Vertices isolados do grafo:";
+            for (int i = 0; i < lista.size(); i++)
+            {
+                if (lista[i].size() == 0)
+                    cout << " " << i;
+            }
+            cout << endl;
+        }
 };

@@ -372,6 +372,28 @@ class GrafoSimples {
             }
             cout << endl;
         }
+
+
+        /********************* Exercício 09 *********************/
+        /*
+        Escreva uma função que liste todos os vértices isolados de G, que são os vértices que não possuem vizinhos.
+        O grau de um vértice isolado é, portanto, igual a 0.
+        */
+        /********************************************************/
+
+
+        /**
+         * Lista todos os vértices isolados do grafo
+        */
+        void ExibeVerticesIsolados() {
+            cout << "Vertices isolados do grafo:";
+            for (int i = 0; i < lista.size(); i++)
+            {
+                if (lista[i].size() == 0)
+                    cout << " " << i;
+            }
+            cout << endl;
+        }
 };
 
 
@@ -411,6 +433,8 @@ int main() {
 
     /* Exercício 05 */
     srand(time(NULL));
+
+    cout << endl;
     for (int i = 0; i < TESTES_VIZINHANCA; i++)
     {
         int v1 = rand() % grafo.QuantidadeVertices();
@@ -451,7 +475,12 @@ int main() {
 
 
     /* Exercício 08 */
+    cout << endl;
     grafo.ExibeVerticesUniversais();
+
+
+    /* Exercício 09 */
+    grafo.ExibeVerticesIsolados();
 
 
     return 0;
