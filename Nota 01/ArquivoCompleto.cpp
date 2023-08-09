@@ -510,6 +510,47 @@ class GrafoSimples {
             // o subgrafo é válido
             return true;
         }
+
+
+        /********************* Exercício 11 *********************/
+        /*
+        Uma sequência de k vértices v1,v2,...,vk é um passeio em G se, para todo 1≤i≤k−1, vale que vi e vi+1 são vizinhos.
+        Isso equivale a dizer que vértices adjacentes na sequência devem ser vizinhos.
+        Não há outra restrição a ser considerada na definição de passeio, sendo possível, por exemplo,
+        repetir vértices e arestas. Um exemplo de passeio no grafo da Figura 1 é 1,2,3,4,3,6.
+
+        Escreva uma função que determine se uma sequência de vértices constitui um passeio em G.
+        */
+        /********************************************************/
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar um passei no grafo.
+         * Retorna falso caso contrário.
+        */
+        bool EhPasseio(vector<int>& vertices) {
+            // Se não há nenhum vértice não tem como ser um passeio
+            if (vertices.size() == 0)
+                return false;
+
+            // Se o conjunto de vértices tiver tamanho um, ele não será verificado
+            // no laço "for" a seguir, então sua validade é verificada mais cedo
+            if (!VerticeValido(vertices[0]))
+                return false;
+            
+
+            // Verifica a validade dos vértices e arestas no passeio
+            for (int i = 0; i < vertices.size()-1; i++)
+            {
+                if (!VerticeValido(vertices[i]) || !VerticeValido(vertices[i+1]))
+                    return false;
+                if (matriz[vertices[i]][vertices[i+1]] == 0)
+                    return false;
+            }
+
+            // Se todos os vértices e arestas são válidos, então o passeio é válido
+            return true;
+        }
 };
 
 
@@ -607,6 +648,7 @@ int main() {
         {2, 5}
     };
 
+    cout << endl;
     if (grafo.EhSubgrafo(vertices, arestas))
     {
         cout << "O subgrafo eh valido!" << endl;
@@ -614,6 +656,20 @@ int main() {
     else
     {
         cout << "O subgrafo NAO eh valido!" << endl;
+    }
+
+
+    /* Exercício 11 */
+    vector<int> verticesPasseio = {0, 1, 2, 3, 0, 2, 5};
+
+    cout << endl;
+    if (grafo.EhPasseio(verticesPasseio))
+    {
+        cout << "O conjunto de vertices eh um passeio!" << endl;
+    }
+    else
+    {
+        cout << "O conjunto de vertices NAO eh um passeio!" << endl;
     }
 
 

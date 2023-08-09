@@ -423,4 +423,33 @@ class GrafoSimples {
             // o subgrafo é válido
             return true;
         }
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar um passei no grafo.
+         * Retorna falso caso contrário.
+        */
+        bool EhPasseio(vector<int>& vertices) {
+            // Se não há nenhum vértice não tem como ser um passeio
+            if (vertices.size() == 0)
+                return false;
+
+            // Se o conjunto de vértices tiver tamanho um, ele não será verificado
+            // no laço "for" a seguir, então sua validade é verificada mais cedo
+            if (!VerticeValido(vertices[0]))
+                return false;
+            
+
+            // Verifica a validade dos vértices e arestas no passeio
+            for (int i = 0; i < vertices.size()-1; i++)
+            {
+                if (!VerticeValido(vertices[i]) || !VerticeValido(vertices[i+1]))
+                    return false;
+                if (matriz[vertices[i]][vertices[i+1]] == 0)
+                    return false;
+            }
+
+            // Se todos os vértices e arestas são válidos, então o passeio é válido
+            return true;
+        }
 };
