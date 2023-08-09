@@ -601,6 +601,58 @@ class GrafoSimples {
             // Se todos os vértices e arestas são válidos, então o caminho é válido
             return true;
         }
+
+
+        /********************* Exercício 13 *********************/
+        /*
+        Um ciclo é um passeio que não repete vértices, com exceção do primeiro e último vértices, que são iguais.
+        O passeio 1,2,4,3,1 é um ciclo no grafo da Figura 1.
+
+        Escreva uma função que determine se uma dada sequência de vértices constitui um ciclo em G.
+        */
+        /********************************************************/
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar um ciclo no grafo.
+         * Retorna falso caso contrário.
+        */
+        bool EhCiclo(vector<int>& vertices) {
+            // São necessários 3 vértices, no mínimo, para formar um ciclo
+            if (vertices.size() <= 2)
+                return false;
+
+            // Antes de analisar a sequencia de vértices, podemos verificar se
+            // o primeiro e último são iguais            
+            if (vertices[0] != vertices.back())
+                return false;
+
+
+            // vector usado para indicar se um vértice já foi usado ou não no ciclo
+            vector<bool> usado(QuantidadeVertices(), false);
+            usado[vertices[0]] = true; // Como vamos começar a percorrer o ciclo a partir
+                                       // de vertices[0], ele já começa marcado como usado
+
+            // Verifica a validade dos vértices e arestas no ciclo
+            for (int i = 0; i < vertices.size()-1; i++)
+            {
+                if (!VerticeValido(vertices[i]) || !VerticeValido(vertices[i+1]))
+                    return false;
+                
+                if (matriz[vertices[i]][vertices[i+1]] == 0) // Não há aresta conectando os vértices
+                    return false;
+                
+                // Verifica se o próximo vértice é repetido mas não é o último
+                if (usado[vertices[i+1]] && (i+1 < vertices.size()-1))
+                    return false;
+                
+                // Vértices e aresta válidos
+                usado[vertices[i+1]] = true;
+            }
+
+            // Se todos os vértices e arestas são válidos, então o ciclo é válido
+            return true;
+        }
 };
 
 
@@ -734,6 +786,20 @@ int main() {
     else
     {
         cout << "O conjunto de vertices NAO eh um caminho!" << endl;
+    }
+
+
+    /* Exercício 13 */
+    vector<int> verticesCiclo = {0, 1, 3, 2, 0};
+
+    cout << endl;
+    if (grafo.EhCiclo(verticesCiclo))
+    {
+        cout << "O conjunto de vertices eh um ciclo!" << endl;
+    }
+    else
+    {
+        cout << "O conjunto de vertices NAO eh um ciclo!" << endl;
     }
 
 
