@@ -621,4 +621,39 @@ class GrafoSimples {
             // uma Trilha
             return true;
         }
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar um clique.
+         * Retorna falso caso contrário.
+        */
+        bool EhClique(vector<int>& vertices) {
+            // Não tem como ser um clique se não há nenhum vértice
+            if (vertices.size() == 0)
+                return false;
+            
+
+            // Verifica se todos os vértices são válidos
+            for (int i = 0; i < vertices.size(); i++)
+            {
+                if (!VerticeValido(vertices[i]))
+                    return false;
+            }
+
+
+            // Verifica se o conjunto de vértices tem todas as ligações necessárias para
+            // formar um clique
+            for (int i = 0; i < vertices.size()-1; i++)
+            {
+                for (int j = i+1; j < vertices.size(); j++)
+                {
+                    if (matriz[vertices[i]][vertices[j]] == 0)
+                        return false;
+                }
+            }
+
+            // Se todos os vértices são válidos e todas as arestas necessárias existem,
+            // então o conjunto é um clique 
+            return true;
+        }
 };

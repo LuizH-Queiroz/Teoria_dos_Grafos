@@ -748,6 +748,52 @@ class GrafoSimples {
             // uma Trilha
             return true;
         }
+
+
+        /********************* Exercício 15 *********************/
+        /*
+        Um subconjunto de vértices  S⊆V  é um clique de  G  se, para quaisquer dois vértices distintos  i,j ∈ S ,
+        existe a aresta  (i,j)  no grafo. Portanto, os vértices de um clique estão dois a dois conectados por uma aresta.
+        Os seguintes conjuntos são exemplos de clique do grafo da Figura 1:  {1,2},{1,2,3},{1,2,3,4}.
+
+        Escreva uma função que determine se um dado conjunto de vértices constitui um clique de  G .
+        */
+        /********************************************************/
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar um clique.
+         * Retorna falso caso contrário.
+        */
+        bool EhClique(vector<int>& vertices) {
+            // Não tem como ser um clique se não há nenhum vértice
+            if (vertices.size() == 0)
+                return false;
+            
+
+            // Verifica se todos os vértices são válidos
+            for (int i = 0; i < vertices.size(); i++)
+            {
+                if (!VerticeValido(vertices[i]))
+                    return false;
+            }
+
+
+            // Verifica se o conjunto de vértices tem todas as ligações necessárias para
+            // formar um clique
+            for (int i = 0; i < vertices.size()-1; i++)
+            {
+                for (int j = i+1; j < vertices.size(); j++)
+                {
+                    if (matriz[vertices[i]][vertices[j]] == 0)
+                        return false;
+                }
+            }
+
+            // Se todos os vértices são válidos e todas as arestas necessárias existem,
+            // então o conjunto é um clique 
+            return true;
+        }
 };
 
 
@@ -906,6 +952,19 @@ int main() {
     else
     {
         cout << "O conjunto de vertices NAO eh um Trilha!" << endl;
+    }
+
+
+    /* Exercício 15 */
+    vector<int> verticesClique = {0, 1, 2, 3};
+
+    if (grafo.EhClique(verticesClique))
+    {
+        cout << "O conjunto de vertices eh um Clique!" << endl;
+    }
+    else
+    {
+        cout << "O conjunto de vertices NAO eh um Clique!" << endl;
     }
 
 
