@@ -653,6 +653,101 @@ class GrafoSimples {
             // Se todos os vértices e arestas são válidos, então o ciclo é válido
             return true;
         }
+
+
+        /********************* Exercício 14 *********************/
+        /*
+        Uma trilha é um passeio que não repete arestas.
+
+        Escreva uma função que determine se uma dada sequência de vértices constitui uma trilha em  G.
+        */
+        /********************************************************/
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar uma trilha no grafo.
+         * Retorna falso caso contrário.
+        */
+        bool EhTrilha(vector<int>& vertices) {
+            // Se não há nenhum vértice, não é uma trilha (mas é permitido
+            // não ter nenhuma aresta)
+            if (vertices.size() == 0)
+                return false;
+
+            // Se o conjunto consistir de um único vértice, só é necessário
+            // verificar se o vértice é válido ou não
+            if (vertices.size() == 1)
+                if (VerticeValido(vertices[0]))
+                    return true;
+                else
+                    return false;
+            
+
+            /*
+            matrizTrilha:   Matriz de adjacências do conjunto de vértices recebido como parâmetro.
+                            Para não ocupar memória desnecessariamente, a matriz terá tamanho
+                            K x K, sendo K o número de vértices no conjunto.
+                                
+                            Para usar a matriz corretamente é necessário o uso da estrutura auxiliar
+                            "verticesHash", para indicar corretamente o índice de um vértice
+                            na matriz.
+
+
+            vecticesHash:   Os vértices do grafo (nessa classe GrafoSimples) são classificados
+                            com números inteiros positivos >= 0. Se o grafo tem K vértices, portanto,
+                            eles estão no intervalo [0, K-1].
+                            Sendo assim, se o vector de vértices recebido como parâmetro for válido,
+                            seus vértices irão variar no intervalo [0, QuantidadeVertices()-1].
+
+                            Para cada vértice "i", "verticesHash[i]" informa a posição do vértice "i"
+                            na matriz de adjacências.
+                            Se "verticesHash[i] == -1", então o vértice "i" não faz parte do conjunto
+            */
+            vector<int> verticesHash(QuantidadeVertices(), -1);
+            vector<vector<int>> matrizTrilha;
+            int proximoIndice = 0; // Variável auxiliar para determinar o índice que um vértice válido
+                                   // ocupará na matriz de adjacências (matrizTrilha)
+
+            // Verifica se todos os vértices no vector são válidos
+            for (int i = 0; i < vertices.size(); i++)
+            {
+                if (!VerticeValido(vertices[i]))
+                    return false;
+                
+                verticesHash[vertices[i]] = proximoIndice;
+                proximoIndice++;
+            }
+
+
+            // Se todos os vértices no conjunto são válidos, podemos inicializar matrizTrilha
+            // com o tamanho correto.
+            // A matriz começa com todos os valores iguais a 0, ou seja, indicando que
+            // no momento não foi marcada nenhuma aresta
+            matrizTrilha = vector<vector<int>>(vertices.size(), vector<int>(vertices.size(), 0));
+
+
+            // Verifica se há aresta repetida
+            int indiceV1;
+            int indiceV2;
+
+            for (int i = 0; i < vertices.size()-1; i++)
+            {
+                indiceV1 = verticesHash[vertices[i]];
+                indiceV2 = verticesHash[vertices[i+1]];
+
+                if (matrizTrilha[indiceV1][indiceV2] == 1) // A aresta é repetida
+                    return false;
+                
+                // Como a aresta não é repetida, marcamos ela na matriz
+                matrizTrilha[indiceV1][indiceV2] = 1;
+                matrizTrilha[indiceV2][indiceV1] = 1;
+            }
+
+
+            // Como nenhuma aresta se repete, a sequência de vértices constitui
+            // uma Trilha
+            return true;
+        }
 };
 
 
@@ -778,7 +873,6 @@ int main() {
     /* Exercício 12 */
     vector<int> verticesCaminho = {0, 1, 3, 2, 5, 4, 6, 5};
 
-    cout << endl;
     if (grafo.EhCaminho(verticesCaminho))
     {
         cout << "O conjunto de vertices eh um caminho!" << endl;
@@ -792,7 +886,6 @@ int main() {
     /* Exercício 13 */
     vector<int> verticesCiclo = {0, 1, 3, 2, 0};
 
-    cout << endl;
     if (grafo.EhCiclo(verticesCiclo))
     {
         cout << "O conjunto de vertices eh um ciclo!" << endl;
@@ -800,6 +893,19 @@ int main() {
     else
     {
         cout << "O conjunto de vertices NAO eh um ciclo!" << endl;
+    }
+
+
+    /* Exercício 14 */
+    vector<int> verticesTrilha = {2, 0, 1, 3, 2, 5, 6, 4};
+
+    if (grafo.EhTrilha(verticesTrilha))
+    {
+        cout << "O conjunto de vertices eh um Trilha!" << endl;
+    }
+    else
+    {
+        cout << "O conjunto de vertices NAO eh um Trilha!" << endl;
     }
 
 
