@@ -656,4 +656,41 @@ class GrafoSimples {
             // então o conjunto é um clique 
             return true;
         }
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar um clique maximal.
+         * Retorna falso caso contrário.
+        */
+        bool EhCliqueMaximal(vector<int>& vertices) {
+            // Não tem como ser um clique maximal se não é um clique
+            if (!EhClique(vertices))
+                return false;
+            
+
+            // Nesse vector, para cada vértice V, ligacoes[V] indica quantos vértices
+            // do clique recebido como parâmetro apontam para V
+            vector<int> ligacoes(QuantidadeVertices(), 0); // Todos os valores começam em 0
+
+            // Percorre a lista de adjacências de todos os vértices recebidos e incrementa
+            // o contador de ligações (vector ligacoes).
+            // Se algum vértice atingir "vertices.size()" ligações, então há pelo menos
+            // um vértice que poderia ser adicionado ao conjunto de forma que continuaria
+            // sendo um clique, já que esse vértice teria ligações com todos os outros
+            for (int i = 0; i < vertices.size(); i++)
+            {
+                for (int j = 0; j < lista[i].size(); j++)
+                {
+                    ligacoes[ lista[i][j] ]++;
+                    
+                    // Se for verdadeira a condição abaixo, então há um vértice que poderia
+                    // ser adicionado ao conjunto e, portanto, o clique não é maximal
+                    if (ligacoes[ lista[i][j] ] == vertices.size())
+                        return false;
+                }
+            }
+
+            // Como não há nenhum vértice que possa ser incluído, o clique é maximal
+            return true;
+        }
 };

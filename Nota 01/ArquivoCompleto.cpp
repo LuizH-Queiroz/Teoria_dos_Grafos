@@ -794,6 +794,56 @@ class GrafoSimples {
             // então o conjunto é um clique 
             return true;
         }
+
+
+        /********************* Exercício 16 *********************/
+        /*
+        Um clique  S⊆V  é dito maximal se não houver outro clique  S′  tal que  S′⊇S . Isto é, se não for possível expandir
+        o conjunto  S  através da inserção de um ou mais vértices de modo que o conjunto resultante ainda seja um clique.
+        Os seguintes conjuntos são exemplos de cliques maximais do grafo da Figura 1:  {1,2,3,4},{5,6,7} .
+        Observe que o conjunto  {1,2,3} , apesar de ser clique, não é maximal pois ele poderia ser estendido através
+        da adição do vértice 4.
+
+        Escreva uma função que determine se um dado conjunto de vértices constitui um clique maximal de  G .
+        */
+        /********************************************************/
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar um clique maximal.
+         * Retorna falso caso contrário.
+        */
+        bool EhCliqueMaximal(vector<int>& vertices) {
+            // Não tem como ser um clique maximal se não é um clique
+            if (!EhClique(vertices))
+                return false;
+            
+
+            // Nesse vector, para cada vértice V, ligacoes[V] indica quantos vértices
+            // do clique recebido como parâmetro apontam para V
+            vector<int> ligacoes(QuantidadeVertices(), 0); // Todos os valores começam em 0
+
+            // Percorre a lista de adjacências de todos os vértices recebidos e incrementa
+            // o contador de ligações (vector ligacoes).
+            // Se algum vértice atingir "vertices.size()" ligações, então há pelo menos
+            // um vértice que poderia ser adicionado ao conjunto de forma que continuaria
+            // sendo um clique, já que esse vértice teria ligações com todos os outros
+            for (int i = 0; i < vertices.size(); i++)
+            {
+                for (int j = 0; j < lista[i].size(); j++)
+                {
+                    ligacoes[ lista[i][j] ]++;
+                    
+                    // Se for verdadeira a condição abaixo, então há um vértice que poderia
+                    // ser adicionado ao conjunto e, portanto, o clique não é maximal
+                    if (ligacoes[ lista[i][j] ] == vertices.size())
+                        return false;
+                }
+            }
+
+            // Como não há nenhum vértice que possa ser incluído, o clique é maximal
+            return true;
+        }
 };
 
 
@@ -958,6 +1008,7 @@ int main() {
     /* Exercício 15 */
     vector<int> verticesClique = {0, 1, 2, 3};
 
+    cout << endl;
     if (grafo.EhClique(verticesClique))
     {
         cout << "O conjunto de vertices eh um Clique!" << endl;
@@ -965,6 +1016,19 @@ int main() {
     else
     {
         cout << "O conjunto de vertices NAO eh um Clique!" << endl;
+    }
+
+
+    /* Exercício 16 */
+    vector<int> verticesCliqueMaximal = {2, 0, 1, 3};
+
+    if (grafo.EhCliqueMaximal(verticesCliqueMaximal))
+    {
+        cout << "O conjunto de vertices eh um Clique Maximal!" << endl;
+    }
+    else
+    {
+        cout << "O conjunto de vertices NAO eh um Clique Maximal!" << endl;
     }
 
 
