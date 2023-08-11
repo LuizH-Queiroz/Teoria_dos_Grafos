@@ -99,7 +99,7 @@ class GrafoSimples {
                 cout << i << ": ";
                 for (int j = 0; j < lista[i].size(); j++)
                 {
-                    cout << (lista[i][j] + 1);
+                    cout << lista[i][j];
                     if (j < (lista[i].size()-1))
                         cout << ", ";
                 }
