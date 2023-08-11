@@ -693,4 +693,36 @@ class GrafoSimples {
             // Como não há nenhum vértice que possa ser incluído, o clique é maximal
             return true;
         }
+
+
+        /**
+         * Cria e retorna o complemento do grafo como referência
+        */
+        GrafoSimples CriaComplemento() {
+            GrafoSimples complemento;
+
+            // Inicializa a matriz e a lista de adjacências do complemento
+            complemento.matriz = vector<vector<int>>(QuantidadeVertices(), vector<int>(QuantidadeVertices()));
+            complemento.lista = vector<vector<int>>(QuantidadeVertices());
+
+            // Percorre toda a matriz de adjacências para poder atribuir valor tanto
+            // à matriz quanto à lista de adjacências do complemento
+            for (int i = 0; i < matriz.size(); i++)
+            {
+                for (int j = 0; j < matriz[i].size(); j++)
+                {
+                    if (matriz[i][j] == 0 && i != j)
+                    {
+                        complemento.matriz[i][j] = 1;
+                        complemento.lista[i].push_back(j);
+                    }
+                    else // matriz[i][j] == 1 || i == j
+                    {
+                        complemento.matriz[i][j] = 0;
+                    }
+                }
+            }
+
+            return complemento;
+        }
 };

@@ -844,6 +844,50 @@ class GrafoSimples {
             // Como não há nenhum vértice que possa ser incluído, o clique é maximal
             return true;
         }
+
+
+        /********************* Exercício 17 *********************/
+        /*
+        O complemento de  G  é um grafo  G¯=(V,E¯)  que possui os mesmos vértices de  G , mas cujo conjunto de arestas é o complemento
+        do conjunto de arestas de  G . Portanto, uma aresta  (i,j)  pertence a  E¯  se, e somente se, ela não pertece a  E.
+        O grafo abaixo corresponde ao complemento do grafo ilustrado na Figura 1.
+
+        Escreva uma função que receba um grafo como parâmetro e retorne o seu complemento.
+        Observe que o retorno da função consiste em um grafo.
+        */
+        /********************************************************/
+
+
+        /**
+         * Cria e retorna o complemento do grafo como referência
+        */
+        GrafoSimples CriaComplemento() {
+            GrafoSimples complemento;
+
+            // Inicializa a matriz e a lista de adjacências do complemento
+            complemento.matriz = vector<vector<int>>(QuantidadeVertices(), vector<int>(QuantidadeVertices()));
+            complemento.lista = vector<vector<int>>(QuantidadeVertices());
+
+            // Percorre toda a matriz de adjacências para poder atribuir valor tanto
+            // à matriz quanto à lista de adjacências do complemento
+            for (int i = 0; i < matriz.size(); i++)
+            {
+                for (int j = 0; j < matriz[i].size(); j++)
+                {
+                    if (matriz[i][j] == 0 && i != j)
+                    {
+                        complemento.matriz[i][j] = 1;
+                        complemento.lista[i].push_back(j);
+                    }
+                    else // matriz[i][j] == 1 || i == j
+                    {
+                        complemento.matriz[i][j] = 0;
+                    }
+                }
+            }
+
+            return complemento;
+        }
 };
 
 
@@ -1030,6 +1074,18 @@ int main() {
     {
         cout << "O conjunto de vertices NAO eh um Clique Maximal!" << endl;
     }
+
+
+    /* Exercício 17 */
+    cout << endl << endl;;
+    cout << "Dados do Grafo Complemento:" << endl;
+
+    GrafoSimples grafoComplemento = grafo.CriaComplemento();
+    grafoComplemento.ExibeMatrizAdjacencias();
+    grafoComplemento.ExibeListaAdjacencias();
+
+    cout << endl;
+    cout << "Fim do Grafo Complemento!" << endl;
 
 
     return 0;
