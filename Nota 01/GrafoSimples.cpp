@@ -725,4 +725,21 @@ class GrafoSimples {
 
             return complemento;
         }
+
+
+        /**
+         * Retorna verdadeiro se o conjunto de vértices formar um conjunto independente
+         * no grafo.
+         * Retorna falso caso contrário.
+        */
+        bool EhConjuntoIndependente(vector<int>& vertices) {
+            // O grafo complementar pode ser usado para identificar se um conjunto de
+            // vértices forma um conjunto independente ou não. Isso porque como ele possui apenas
+            // as arestas que o grafo original não possui, se um determinado conjunto de vértices
+            // for um clique no grafo "complemento", então com certeza nenhum desses vértices
+            // têm qualquer ligação entre si no grafo original e, portanto, são um conjunto independente
+            GrafoSimples complemento = CriaComplemento();
+
+            return complemento.EhClique(vertices);
+        }
 };
